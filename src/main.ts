@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { BinanceOrderBookAppComponent } from './app/binance-order-book-app.component';
 
-bootstrapApplication(AppComponent, appConfig)
+bootstrapApplication(BinanceOrderBookAppComponent, appConfig)
   .catch((err) => console.error(err));
