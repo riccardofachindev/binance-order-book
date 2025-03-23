@@ -1,0 +1,48 @@
+<section class="order-book">
+    <h3>Order Book: {{ symbol }}</h3>
+
+    @if (isLoading()) {
+        <p class="loading-message">Loading data...</p>
+    } @else if (hasError()) {
+        <p class="error-message">Could not load order book data for <strong>{{ symbol }}</strong>. Please try again later.</p>
+    } @else {
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2">Bids</th>
+                <th colspan="2">Asks</th>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                @for (bid of topBids(); track $index) {
+                    @if (topAsks()[$index]) {
+                        <tr>
+                            <td>{{ bid[0] }}</td>
+                            <td>{{ bid[1] }}</td>
+                            <td>{{ topAsks()[$index][0] }}</td>
+                            <td>{{ topAsks()[$index][1] }}</td>
+                        </tr>
+                    } @else {
+                        <tr>
+                            <td>{{ bid[0] }}</td>
+                            <td>{{ bid[1] }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+
+    <footer>
+        <button (click)="removeOrderBook.emit(symbol)">Remove</button>
+    </footer>
+</section>

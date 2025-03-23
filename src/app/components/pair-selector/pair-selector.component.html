@@ -1,0 +1,11 @@
+<section class="pair-selector-container">
+  <label for="tradingPair">Select Pair:</label>
+  <select id="tradingPair" [value]="selectedPair()" (change)="onPairSelected($any($event.target).value)">
+    <option value="">-- Select --</option>
+    @for (pair of tradingPairs(); track pair) {
+      <option [value]="pair">{{ pair }}</option>
+    }
+  </select>
+
+  <button (click)="addPair.emit(selectedPair())" [disabled]="!selectedPair()">Add</button>
+</section>

@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+/* List of all colors used in the app */
+:root {
+  --binance-yellow: #F0B90B;
+  --binance-yellow-hover: #E6A800;
+  --binance-yellow-active: #D4A000;
+  --binance-red: #DC3545;
+  --binance-red-hover: #D32F2F;
+  --binance-green: #28A745;
+  --binance-light-gray: #CED4DA;
+  --binance-light-background: #f0f0f0;
+  --binance-white: white;
+  --binance-dark-gray: #212529;
+  --binance-medium-gray: #6C757D;
+  --binance-light-red-background: #F8D7DA;
+  --binance-light-green-background: #D4EDDA;
+  --binance-header-background: #F0B90B;
+  --binance-accent-blue: rgba(26, 115, 232, 1);
+  --binance-accent-blue-shadow: rgba(26, 115, 232, 0.5);
+  --binance-disabled-background: #E9ECEF;
+}
