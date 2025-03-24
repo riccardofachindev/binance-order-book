@@ -1,11 +1,48 @@
 <section class="pair-selector-container">
-  <label for="tradingPair">Select Pair:</label>
-  <select id="tradingPair" [value]="selectedPair()" (change)="onPairSelected($any($event.target).value)">
-    <option value="">-- Select --</option>
-    @for (pair of tradingPairs(); track pair) {
-      <option [value]="pair">{{ pair }}</option>
-    }
-  </select>
+  <label for="tradingPair">Pair selector:</label>
 
-  <button (click)="addPair.emit(selectedPair())" [disabled]="!selectedPair()">Add</button>
+  <!-- Use *ngIf because @if doesn't support "| async as state" yet -->
+  <ng-container *ngIf="tradingPairsState$ | async as state; else notLoadedTradingPairsTemplate">
+    @switch (state.kind) {
+      @case ('loading') {
+        <div class="loading-container">
+          <span>Loading data...</span>
+          <div class="loading-spinner" role="status" aria-label="Loading"></div>
+        </div>
+      }
+      @case ('success') {
+        <select #tradingPairSelect id="tradingPair" (change)="onPairSelected($any($event.target).value)">
+          <option value="" disabled selected>Select a trading pair</option>
+
+          <ng-container *ngIf="activeSymbols$ | async as activeSymbols">
+            @for (pair of state.pairs; track pair) {
+              <option [value]="pair" [disabled]="activeSymbols.includes(pair)">
+                {{ pair }}
+
+                @if (activeSymbols.includes(pair)) {
+                  <span> — already selected</span>
+                }
+              </option>
+            }
+          </ng-container>
+        </select>
+      }
+      @case ('error') {
+        <p class="error-message">Failed to load trading pairs: {{ state.error }}</p>
+      }
+      @case ('empty') {
+        <p class="error-message">No trading pairs available.</p>
+      }
+    }
+  </ng-container>
+
+  <ng-template #notLoadedTradingPairsTemplate>
+    <div>Loading initial state...</div>
+  </ng-template>
+
+  <button class="pair-selector-button" (click)="addPairToStore()" [disabled]="!selectedPair()">Add Pair</button>
+
+  @if (addConfirmationMessage()) {
+    <div class="confirmation-message">{{ addConfirmationMessage() }}</div>
+  }
 </section>

@@ -11,6 +11,22 @@
   margin-top: 0;
   margin-bottom: 0.625rem;
   text-align: center;
+  background-color: var(--binance-header-background);
+  padding: 0.5rem;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  &.collapsed {
+    margin-bottom: 0;
+  }
+}
+
+.order-book h3 span {
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .order-book table {
@@ -26,22 +42,31 @@
   text-align: left;
 }
 
-.order-book thead tr:first-child th {
+.order-book thead tr:first-child th:first-child,
+.order-book thead tr:first-child th:nth-child(2) {
+  background-color: var(--binance-light-green-background);
+  color: var(--binance-green);
   text-align: center;
   font-weight: bold;
-  background-color: var(--binance-header-background);
-  color: var(--binance-dark-gray);
+  font-size: 1.1rem;
+}
+
+.order-book thead tr:first-child th:nth-child(3),
+.order-book thead tr:first-child th:last-child {
+  background-color: var(--binance-light-red-background);
+  color: var(--binance-red);
+  text-align: center;
+  font-weight: bold;
 }
 
 .order-book thead tr:nth-child(2) th {
-  font-size: 0.9rem;
   background-color: var(--binance-white);
-  text-align: left;
+  text-align: right;
   width: 25%;
 }
 
 .order-book tbody tr td {
-  text-align: left;
+  text-align: right;
   width: 25%;
   background-color: var(--binance-white);
 }
@@ -67,7 +92,7 @@
   align-items: end;
 }
 
-.order-book button {
+footer button {
   padding: 0.5rem 1rem;
   background-color: var(--binance-red);
   color: var(--binance-white);
@@ -77,25 +102,41 @@
   font-size: 1rem;
 }
 
-.order-book button:hover {
+footer button:hover {
   background-color: var(--binance-red-hover);
 }
 
-.loading-message, .error-message {
+.error-message {
   padding: 0.625rem;
   text-align: center;
   margin-top: 0;
   margin-bottom: 0.625rem;
   border: 1px solid var(--binance-light-gray);
   border-radius: 4px;
-}
-
-.loading-message {
-  background-color: var(--binance-white);
-  color: var(--binance-medium-gray);
-}
-
-.error-message {
   color: var(--binance-red);
   background-color: var(--binance-light-red-background);
+}
+
+.error-message button {
+  padding: 0.5rem 1rem;
+  background-color: var(--binance-yellow);
+  color: var(--binance-dark-gray);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.error-message button:hover {
+  background-color: var(--binance-yellow-hover);
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px;
+  color: var(--binance-medium-gray);
 }

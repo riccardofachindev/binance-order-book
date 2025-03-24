@@ -1,48 +1,60 @@
 <section class="order-book">
-    <h3>Order Book: {{ symbol }}</h3>
+  <h3 [class.collapsed]="isCollapsed()" (click)="toggleCollapse()">
+    Order Book: {{ symbol }}
+    <span>{{ isCollapsed() ? '[+]' : '[-]' }}</span>
+  </h3>
 
+  @if (!isCollapsed()) {
     @if (isLoading()) {
-        <p class="loading-message">Loading data...</p>
+      <div class="loading-container">
+        <p>Loading data...</p>
+        <div class="loading-spinner" role="status" aria-label="Loading"></div>
+      </div>
     } @else if (hasError()) {
-        <p class="error-message">Could not load order book data for <strong>{{ symbol }}</strong>. Please try again later.</p>
-    } @else {
-        <table>
-            <thead>
-            <tr>
-                <th colspan="2">Bids</th>
-                <th colspan="2">Asks</th>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-            </thead>
+      <p class="error-message">
+        Could not load order book data for <strong>{{ symbol }}</strong>. Please try again.
 
-            <tbody>
-                @for (bid of topBids(); track $index) {
-                    @if (topAsks()[$index]) {
-                        <tr>
-                            <td>{{ bid[0] }}</td>
-                            <td>{{ bid[1] }}</td>
-                            <td>{{ topAsks()[$index][0] }}</td>
-                            <td>{{ topAsks()[$index][1] }}</td>
-                        </tr>
-                    } @else {
-                        <tr>
-                            <td>{{ bid[0] }}</td>
-                            <td>{{ bid[1] }}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+        <button (click)="connectWebSocket()">Reconnect</button>
+      </p>
+    } @else {
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">Bids</th>
+          <th colspan="2">Asks</th>
+        </tr>
+        <tr>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          @for (bid of topBids(); track $index) {
+            @if (topAsks()[$index]) {
+              <tr>
+                <td>{{ bid[0] | number: '1.4-4' }}</td>
+                <td>{{ bid[1] | number: '1.4-4' }}</td>
+                <td>{{ topAsks()[$index][0] | number: '1.4-4' }}</td>
+                <td>{{ topAsks()[$index][1] | number: '1.4-4' }}</td>
+              </tr>
+            } @else {
+              <tr>
+                <td>{{ bid[0] | number: '1.4-4' }}</td>
+                <td>{{ bid[1] | number: '1.4-4' }}</td>
+                <td></td>
+                <td></td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
     }
 
     <footer>
-        <button (click)="removeOrderBook.emit(symbol)">Remove</button>
+      <button (click)="removeOrderBook.emit(symbol)">Remove</button>
     </footer>
+  }
 </section>
