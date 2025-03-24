@@ -4,10 +4,12 @@
   margin-bottom: 1.25rem;
   align-items: center;
   width: 50%;
+  height: 2.5625rem;
 }
 
 .pair-selector-container label {
   font-weight: bold;
+  font-size: 1.1rem;
   color: var(--binance-dark-gray);
 }
 
@@ -48,4 +50,27 @@
   background-color: var(--binance-disabled-background);
   color: var(--binance-medium-gray);
   cursor: default;
+}
+
+.pair-selector-container p {
+  flex-grow: 1;
+  padding-left: 1rem;
+}
+
+select option:disabled {
+  color: var(--binance-light-gray);
+}
+
+.loading-container {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-message {
+  padding: 0.625rem;
+  border-radius: 4px;
+  color: var(--binance-red);
+  background-color: var(--binance-light-red-background);
 }

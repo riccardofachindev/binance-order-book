@@ -18,3 +18,34 @@
   --binance-accent-blue-shadow: rgba(26, 115, 232, 0.5);
   --binance-disabled-background: #E9ECEF;
 }
+
+/* Loading spinner */
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: var(--binance-yellow);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Confirmation message */
+.confirmation-message {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: var(--binance-light-green-background);
+  color: var(--binance-green);
+  padding: 2rem 4rem;
+  border-radius: 4px;
+  z-index: 1000;
+}
