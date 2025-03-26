@@ -30,6 +30,16 @@ In particular, regarding bundle size and performance, the following adjustments 
 * **Proper Subscriptions and Signals management:** To use memory efficiently and prevent memory leaks, I made sure to manage the lifecycle of subscription appropriately.
 * **Real-time updates with Websockets:** I assured efficient and low-latency data fetching using Websockets to guarantee real-time data.
 
+**Note:** The search filtering function of the pair selector dropdown could be further improved by utilizing an Observable stream and appropriate RxJS operators:
+* For example:
+	* `BehaviourSubject`: to have a default value (an empty string ' '), hold the most recent search term, and immediately emit the value when a new subscription is made.
+	* `debounceTime`: to prevent excessive filtering while the user is typing.
+	* `distinctUntilChanged`: to avoid redundant searches if the input hasn't changed.
+	* `takeUntil`: to properly manage the subscription lifecycle and prevent potential memory leaks when the component is destroyed.
+	* `switchMap`: to handle new search inputs and cancel any pending search operations.
+	* `catchError`: to handle any errors that might occur during the stream without interrupting it.
+* **Due to time constraints**, I was unable to integrate these performance improvements into the application. However, I would be happy to walk you through how I would implement them if you are interested.
+
 ## Project information
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
