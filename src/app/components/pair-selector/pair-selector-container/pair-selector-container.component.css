@@ -1,0 +1,26 @@
+.pair-selector-container {
+  display: flex;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
+  align-items: center;
+  width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.pair-selector-container h3 {
+  color: var(--binance-dark-gray);
+  display: inline-block;
+}
+
+.pair-selector-dropdown-container {
+  flex-grow: 1;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}

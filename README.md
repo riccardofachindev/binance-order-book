@@ -1,4 +1,36 @@
-# BinanceOrderBook
+# Welcome to Binance Order Book
+
+The app is structured in 3 main parts:
+* **BinanceOrderBookAppComponent:** The application's entry point.
+* **PairSelector components:** Contains all the logic and views for selecting trading pairs.
+* **OrderBook components:** Contains all the logic and views for displaying individual order books.
+
+On top of that, there are:
+* **TradingService:** Handles HTTP requests to the Binance API.
+* **Shared:** Includes common types and interfaces used throughout the application.
+* **Store:** Contains folders for `OrderBook` and `TradingPairs` using NgRx for state management.
+
+While planning and developing the app, I focused on various aspects to ensure a high-quality user experience:
+* Fulfilling all functional and non-functional requirements.
+* Providing a good UX and a pleasant UI, following industry's best practices.
+* Implementing unit tests for reliability.
+* Ensuring the application is responsive.
+* Optimizing bundle size and overall performance.
+
+In particular, regarding bundle size and performance, the following adjustments were implemented:
+* **Initial loading performance and filtering:**
+    * Due to limitations in the Binance API (no direct filtering or pagination for the initial pairs list), I implemented client-side filtering in the `PairSelector`.
+    * To improve initial load time, the application initially loads and displays only the first 20 trading pairs in the dropdown.
+    * A "Load all pairs" button is provided for users who need the complete list, preventing the loading of a potentially large dataset upfront.
+	* The user can search for a specific symbol by using the textbox.
+* **Change detection:** I used ChangeDetectionStrategy.OnPush to reduce the number of change detection cycles, leading to significant performance improvement.
+* **Dynamic component rendering:** OrderBook components are added and removed dynamically, to minimize memory usage and improve performance, especially as more order books are created.
+	* Users can also collapse order books, which also helps to the overall performance and UX.
+* **NgRx State management:** I used NgRx store to improve data consistency, centralize state, and improve operations over large data flows.
+* **Proper Subscriptions and Signals management:** To use memory efficiently and prevent memory leaks, I made sure to manage the lifecycle of subscription appropriately.
+* **Real-time updates with Websockets:** I assured efficient and low-latency data fetching using Websockets to guarantee real-time data.
+
+## Project information
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 

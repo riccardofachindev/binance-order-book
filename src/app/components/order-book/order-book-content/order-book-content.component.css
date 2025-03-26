@@ -1,0 +1,52 @@
+.loading-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px;
+  color: var(--binance-medium-gray);
+}
+
+.error-message {
+  padding: 0.625rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.625rem;
+  border-radius: 4px;
+  color: var(--binance-red);
+  background-color: var(--binance-light-red-background);
+}
+
+.error-message button {
+  padding: 0.5rem 1rem;
+  background-color: var(--binance-yellow);
+  color: var(--binance-dark-gray);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.error-message button:hover {
+  background-color: var(--binance-yellow-hover);
+}
+
+figure {
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+footer button {
+  padding: 0.5rem 1rem;
+  background-color: var(--binance-red);
+  color: var(--binance-white);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+footer button:hover {
+  background-color: var(--binance-red-hover);
+}

@@ -1,0 +1,18 @@
+<section class="order-book-container">
+  <h3 [class.collapsed]="isCollapsed()" (click)="toggleCollapse()">
+    Order Book: {{ symbol }}
+
+    <span>{{ isCollapsed() ? '[+]' : '[-]' }}</span>
+  </h3>
+
+  <sl-order-book-content
+    [symbol]="symbol"
+    [isLoading]="isLoading()"
+    [hasError]="hasError()"
+    [topBids]="topBids()"
+    [topAsks]="topAsks()"
+    [isCollapsed]="isCollapsed()"
+    (reconnectHandler)="onReconnect()"
+    (removeHandler)="onRemove()"
+  ></sl-order-book-content>
+</section>

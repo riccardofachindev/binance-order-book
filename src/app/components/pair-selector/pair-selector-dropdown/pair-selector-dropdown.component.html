@@ -1,0 +1,61 @@
+<section class="dropdown-container">
+    @if (tradingPairsState) {
+        @switch (tradingPairsState.kind) {
+            @case ('loading') {
+                <div class="loading-container">
+                    <span>Loading pairs...</span>
+                    <div class="loading-spinner" role="status" aria-label="Loading"></div>
+                </div>
+            }
+            @case ('success') {
+                <div class="search-input-container">
+                    <input
+                        #searchInput
+                        type="text"
+                        placeholder="Search trading pair"
+                        (input)="onSearchInput($event)"
+                        (focus)="onFocus()"
+                    />
+                </div>
+
+                <ul #dropdownList class="dropdown-list" *ngIf="isDropdownOpen">
+                    @if (displayedPairs.length > 0) {
+                        @for (pair of displayedPairs; track pair) {
+                            <li
+                                    (click)="selectPair(pair)"
+                                    [class.selected]="pair === selectedPair"
+                                    [class.disabled]="activeSymbols && activeSymbols.includes(pair)"
+                            >
+                                {{ pair }}
+                                @if (activeSymbols && activeSymbols.includes(pair)) {
+                                    <span> — already selected</span>
+                                }
+                            </li>
+                        }
+
+                        @if (displayedPairs.length < tradingPairsState.pairs.length) {
+                            <li class="load-all-button" (click)="loadAllPairs()">
+                                <button>Load all pairs</button>
+                            </li>
+                        }
+
+                    } @else {
+                        <li class="no-results">No results found</li>
+                    }
+                </ul>
+            }
+            @case ('error') {
+                <p class="error-message">Failed to load trading pairs: {{ tradingPairsState.error }}</p>
+            }
+            @case ('empty') {
+                <p class="no-pairs-message">No trading pairs available.</p>
+            }
+        }
+    } @else {
+        <p class="initial-loading-message">Loading pairs...</p>
+    }
+
+    <button class="pair-selector-button" (click)="onAddPairClicked()" [disabled]="!selectedPair">
+        Add pair
+    </button>
+</section>
