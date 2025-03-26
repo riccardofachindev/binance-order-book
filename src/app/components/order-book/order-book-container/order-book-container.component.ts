@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
 import { Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { DecimalPipe } from '@angular/common';
+
+import { OrderBookContentComponent } from '../order-book-content/order-book-content.component';
 
 interface OrderBookData {
   bids: [string, string][];
@@ -9,20 +10,18 @@ interface OrderBookData {
 }
 
 @Component({
-  selector: 'sl-order-book',
+  selector: 'sl-order-book-container',
   standalone: true,
   imports: [
-    DecimalPipe
+    OrderBookContentComponent
   ],
-  templateUrl: './order-book.component.html',
-  styleUrl: './order-book.component.css',
+  templateUrl: './order-book-container.component.html',
+  styleUrl: './order-book-container.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderBookComponent implements OnInit, OnDestroy {
-  // Selected symbol for this OrderBook reference
+export class OrderBookContainerComponent implements OnInit, OnDestroy {
   @Input() symbol!: string;
 
-  // Emit an event when the OrderBook is removed
   @Output() removeOrderBook = new EventEmitter<string>();
 
   // Manage the websocket connection to Binance API
@@ -32,13 +31,10 @@ export class OrderBookComponent implements OnInit, OnDestroy {
   private readonly connectionTimeout = 5000;
   private readonly wsUrl = 'wss://stream.binance.com:9443/ws';
 
-  // Handle the destruction of subscriptions
+  // Signal the completion of observables to prevent memory leaks
   private readonly destroy$ = new Subject<void>();
 
-  // To hold the top 5 bids
   topBids = signal<[string, string][]>([]);
-
-  // To hold the top 5 asks
   topAsks = signal<[string, string][]>([]);
 
   isLoading = signal(false);
@@ -72,28 +68,19 @@ export class OrderBookComponent implements OnInit, OnDestroy {
           takeUntil(this.destroy$)
         )
         .subscribe({
-          // Handle incoming values
           next: (data) => {
             this.isLoading.set(false);
             this.updateOrderBook(data);
 
             this.connectionTimeoutSubscription?.unsubscribe();
           },
-          // Handle errors
           error: (error) => {
             this.isLoading.set(false);
             this.hasError.set(true);
-
-            console.error('WebSocket error:', error);
-
             this.connectionTimeoutSubscription?.unsubscribe();
           },
-          // Handle websocket closing
           complete: () => {
             this.isLoading.set(false);
-
-            console.log('WebSocket connection closed');
-
             this.connectionTimeoutSubscription?.unsubscribe();
           }
         });
@@ -105,9 +92,6 @@ export class OrderBookComponent implements OnInit, OnDestroy {
           if (this.isLoading()) {
             this.isLoading.set(false);
             this.hasError.set(true);
-
-            console.error('WebSocket connection timeout');
-
             this.disconnectWebSocket();
           }
         });
@@ -128,5 +112,13 @@ export class OrderBookComponent implements OnInit, OnDestroy {
 
   toggleCollapse(): void {
     this.isCollapsed.update(value => !value);
+  }
+
+  onReconnect(): void {
+    this.connectWebSocket();
+  }
+
+  onRemove(): void {
+    this.removeOrderBook.emit(this.symbol);
   }
 }

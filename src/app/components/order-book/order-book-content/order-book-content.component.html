@@ -1,0 +1,22 @@
+@if (!isCollapsed) {
+  @if (isLoading) {
+    <div class="loading-container">
+      <p>Loading data...</p>
+      <div class="loading-spinner" role="status" aria-label="Loading"></div>
+    </div>
+  } @else if (hasError) {
+    <p class="error-message">
+      Could not load order book data for <strong>{{ symbol }}</strong>. Please try again.
+
+      <button (click)="onReconnectClicked()">Reconnect</button>
+    </p>
+  } @else {
+    <figure>
+      <sl-order-book-table [topBids]="topBids" [topAsks]="topAsks"></sl-order-book-table>
+    </figure>
+  }
+
+  <footer>
+    <button (click)="onRemoveClicked()">Remove</button>
+  </footer>
+}

@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ComponentRef, inject, ViewContainerRef, OnInit, OnDestroy, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, inject, ViewContainerRef, OnInit, OnDestroy, signal, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { OrderBookComponent } from './components/order-book/order-book.component';
-import { PairSelectorComponent } from './components/pair-selector/pair-selector.component';
+import { OrderBookContainerComponent } from './components/order-book/order-book-container/order-book-container.component';
+import { PairSelectorContainerComponent } from './components/pair-selector/pair-selector-container/pair-selector-container.component';
 import * as OrderBookActions from './store/order-book/order-book.actions';
 import * as OrderBookSelectors from './store/order-book/order-book.selectors';
 
@@ -11,7 +11,7 @@ import * as OrderBookSelectors from './store/order-book/order-book.selectors';
   selector: 'sl-binance-order-book-app',
   standalone: true,
   imports: [
-    PairSelectorComponent
+    PairSelectorContainerComponent
   ],
   templateUrl: './binance-order-book-app.component.html',
   styleUrls: ['./binance-order-book-app.component.css'],
@@ -19,7 +19,7 @@ import * as OrderBookSelectors from './store/order-book/order-book.selectors';
 })
 export class BinanceOrderBookAppComponent implements OnInit, OnDestroy {
   // Use ViewContainerRef to load components dynamically
-  private viewContainerRef = inject(ViewContainerRef);
+  @ViewChild('orderBookContainer', { read: ViewContainerRef, static: true }) orderBookContainer!: ViewContainerRef;
 
   private store = inject(Store);
 
@@ -27,17 +27,21 @@ export class BinanceOrderBookAppComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   // Array of references to the dynamically created OrderBook components
-  orderBookComponents: { [symbol: string]: ComponentRef<OrderBookComponent> } = {};
+  orderBookComponents: { [symbol: string]: ComponentRef<OrderBookContainerComponent> } = {};
 
-  removeConfirmationMessage = signal<string | null>(null);
+  // To show welcome message if there are no order books created yet
+  hasOrderBooks = false;
 
   // Array of currently active trading pair symbols from the store
   activeSymbols$: Observable<string[]> = this.store.select(OrderBookSelectors.selectActiveSymbols);
+
+  removeConfirmationMessage = signal<string | null>(null);
 
   ngOnInit(): void {
     // Subscribe to changes in the active symbols and update the displayed order book components
     this.activeSymbols$.pipe(takeUntil(this.destroy$)).subscribe(symbols => {
       this.updateOrderBookComponents(symbols);
+      this.hasOrderBooks = symbols.length > 0;
     });
   }
 
@@ -56,17 +60,18 @@ export class BinanceOrderBookAppComponent implements OnInit, OnDestroy {
     }, 3000);
   }
 
-  private updateOrderBookComponents(symbols: string[]): void {
+  updateOrderBookComponents(symbols: string[]): void {
     const currentSymbols = Object.keys(this.orderBookComponents);
 
     // Create a new instance of OrderBook dynamically
     symbols.forEach(symbol => {
       if (!this.orderBookComponents[symbol]) {
-        const componentRef = this.viewContainerRef.createComponent(OrderBookComponent);
+        const componentRef = this.orderBookContainer.createComponent(OrderBookContainerComponent);
         componentRef.instance.symbol = symbol;
         componentRef.instance.removeOrderBook.pipe(takeUntil(this.destroy$)).subscribe((symbolToRemove: string) => {
           this.removeOrderBook(symbolToRemove);
         });
+
         this.orderBookComponents[symbol] = componentRef;
       }
     });
@@ -75,6 +80,7 @@ export class BinanceOrderBookAppComponent implements OnInit, OnDestroy {
     currentSymbols.forEach(symbol => {
       if (!symbols.includes(symbol)) {
         this.orderBookComponents[symbol].destroy();
+
         delete this.orderBookComponents[symbol];
       }
     });

@@ -1,0 +1,17 @@
+<section class="pair-selector-container">
+  <h3>Pair selector:</h3>
+
+  <div class="pair-selector-dropdown-container">
+    <sl-pair-selector-dropdown
+      [tradingPairsState]="tradingPairsState$ | async"
+      [activeSymbols]="activeSymbols$ | async"
+      [selectedPair]="selectedPair()"
+      (pairSelected)="onPairSelected($event)"
+      (addPairClicked)="addPairToStore()"
+    ></sl-pair-selector-dropdown>
+  </div>
+</section>
+
+@if (addConfirmationMessage()) {
+  <p class="confirmation-message" role="status">{{ addConfirmationMessage() }}</p>
+}

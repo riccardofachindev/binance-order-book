@@ -1,9 +1,17 @@
-<h1 class="app-header">Binance Order Book</h1>
-<sl-pair-selector></sl-pair-selector>
-<div #orderBookContainer>
-  <!-- Dynamically created OrderBookComponents will be rendered here -->
-</div>
+<header>
+  <h1>Binance Order Book</h1>
+</header>
+
+<main>
+  <sl-pair-selector-container></sl-pair-selector-container>
+
+  @if (!hasOrderBooks) {
+    <p class="welcome-message">Welcome! Add a trading pair to view its order book.</p>
+  }
+
+  <ng-container #orderBookContainer></ng-container>
+</main>
 
 @if (removeConfirmationMessage()) {
-  <div class="confirmation-message delete">{{ removeConfirmationMessage() }}</div>
+  <p class="confirmation-message delete" role="status">{{ removeConfirmationMessage() }}</p>
 }

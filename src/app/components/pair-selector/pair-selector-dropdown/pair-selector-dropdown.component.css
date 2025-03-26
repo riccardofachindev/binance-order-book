@@ -1,0 +1,162 @@
+.dropdown-container {
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    position: relative;
+}
+
+.search-input-container {
+    flex-grow: 1;
+}
+
+.search-input-container input[type="text"] {
+    padding: 0.625rem;
+    border: 1px solid var(--binance-light-gray);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    color: var(--binance-dark-gray);
+    box-sizing: border-box;
+}
+
+.search-input-container input[type="text"]:focus {
+    outline: none;
+    border-color: var(--binance-yellow);
+    box-shadow: 0 0 5px var(--binance-yellow-shadow);
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.25rem;
+    border: 1px solid var(--binance-light-gray);
+    border-radius: 4px;
+    background-color: white;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dropdown-list li {
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
+    color: var(--binance-dark-gray);
+    cursor: pointer;
+}
+
+.dropdown-list li:hover {
+    background-color: var(--binance-light-background);
+}
+
+.dropdown-list li.selected {
+    background-color: var(--binance-light-gray);
+    color: var(--binance-medium-gray);
+}
+
+.dropdown-list li.disabled {
+    color: var(--binance-light-gray);
+    cursor: default;
+}
+
+.dropdown-list li.disabled:hover {
+    background-color: transparent;
+}
+
+.dropdown-list li.load-all-button {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    pointer-events: none;
+
+    button {
+        pointer-events: auto;
+    }
+}
+
+.dropdown-list li.load-all-button button {
+    padding: 0.5rem 1rem;
+    background-color: var(--binance-yellow);
+    color: var(--binance-dark-gray);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.dropdown-list li.load-all-button button:hover {
+    background-color: var(--binance-yellow-hover);
+}
+
+.dropdown-list li.load-all-button button:active {
+    background-color: var(--binance-yellow-active);
+}
+
+.dropdown-list li.no-results {
+    padding: 0.625rem 1rem;
+    color: var(--binance-medium-gray);
+    cursor: default;
+    text-align: center;
+}
+
+.dropdown-container button.pair-selector-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--binance-yellow);
+    color: var(--binance-dark-gray);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.dropdown-container button.pair-selector-button:hover {
+    background-color: var(--binance-yellow-hover);
+}
+
+.dropdown-container button.pair-selector-button:active {
+    background-color: var(--binance-yellow-active);
+}
+
+.dropdown-container button.pair-selector-button:disabled {
+    background-color: var(--binance-disabled-background);
+    color: var(--binance-medium-gray);
+    cursor: default;
+}
+
+.dropdown-container p {
+    flex-grow: 1;
+    padding-left: 1rem;
+}
+
+.dropdown-container .loading-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    height: 2.5625rem;
+    padding-left: 1rem;
+}
+
+.dropdown-container .error-message {
+    padding: 0.625rem;
+    border-radius: 4px;
+    color: var(--binance-red);
+    background-color: var(--binance-light-red-background);
+}
+
+.dropdown-container .no-pairs-message {
+    padding: 0.625rem;
+    border-radius: 4px;
+    background-color: var(--binance-disabled-background);
+}
+
+.dropdown-container .initial-loading-message {
+    font-size: 1.1rem;
+}

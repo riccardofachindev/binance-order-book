@@ -1,0 +1,36 @@
+<table>
+  <thead>
+  <tr>
+    <th colspan="2">Bids</th>
+    <th colspan="2">Asks</th>
+  </tr>
+  <tr>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Quantity</th>
+  </tr>
+  </thead>
+
+  <tbody>
+    @if (topBids && topAsks) {
+      @for (bid of topBids; track $index) {
+        @if (topAsks[$index]) {
+          <tr>
+            <td>{{ bid[0] | number: '1.4-4' }}</td>
+            <td>{{ bid[1] | number: '1.4-4' }}</td>
+            <td>{{ topAsks[$index][0] | number: '1.4-4' }}</td>
+            <td>{{ topAsks[$index][1] | number: '1.4-4' }}</td>
+          </tr>
+        } @else {
+          <tr>
+            <td>{{ bid[0] | number: '1.4-4' }}</td>
+            <td>{{ bid[1] | number: '1.4-4' }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        }
+      }
+    }
+  </tbody>
+</table>

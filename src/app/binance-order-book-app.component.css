@@ -1,13 +1,24 @@
-.app-header {
+header h1 {
   color: var(--binance-yellow);
   font-size: 2.5rem;
-  font-weight: bold;
   text-align: center;
   padding: 1rem 0;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 1.5rem 0;
   border-bottom: 2px solid var(--binance-light-gray);
+
+  @media (max-width: 768px) {
+    margin: 0.5rem 0 0.5rem 0;
+  }
 }
 
 .delete {
+  background-color: var(--binance-light-red-background);
   color: var(--binance-red);
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: 1.5em;
+  color: var(--binance-dark-gray);
+  margin-top: 10rem;
 }

@@ -1,0 +1,30 @@
+.order-book-container {
+  border: 1px solid var(--binance-light-gray);
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 5px;
+  background-color: var(--binance-light-background);
+  color: var(--binance-dark-gray);
+}
+
+.order-book-container h3 {
+  margin-top: 0;
+  margin-bottom: 0.625rem;
+  text-align: center;
+  background-color: var(--binance-header-background);
+  padding: 0.5rem;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  &.collapsed {
+    margin-bottom: 0;
+  }
+}
+
+.order-book-container h3 span {
+  font-size: 1rem;
+  font-weight: bold;
+}
